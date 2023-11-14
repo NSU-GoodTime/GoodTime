@@ -31,6 +31,7 @@ public class UTime {
     @JsonIgnore
     private User user;
 
+
     @Override
     public String toString() {
         return "uStartTime=" + uStartTime + ", uEndTime=" + uEndTime + "}";

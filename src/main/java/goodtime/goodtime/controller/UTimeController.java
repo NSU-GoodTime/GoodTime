@@ -24,31 +24,31 @@ public class UTimeController {
     private final UTimeRepository uTimeRepository;
 
     @GetMapping("/votingStatus/{id}")
-    public List<UTime> votingStatus(@PathVariable Long id){
+    public List<UTime> votingStatus(@PathVariable Long id) {
 
-            List<UTime> uTimes = uTimeService.readUTime(id);
-            return uTimes;
+        List<UTime> uTimes = uTimeService.readUTime(id);
+        return uTimes;
     }
 
     @PostMapping("/utime/{id}")
-    public ResponseEntity<?> createUTimes(@RequestBody List<UTimeDto> utimes, @PathVariable Long id) throws UserPrincipalNotFoundException {
+    public ResponseEntity<String> createUTimes(@RequestBody List<UTimeDto> utimes, @PathVariable Long id) throws UserPrincipalNotFoundException {
 
 
         LOGGER.info("utimes1: {}", utimes);
         LOGGER.info("id: {}", id);
 
-//        try {
+        try {
 
             for (UTimeDto utime : utimes) {
 
                 uTimeService.saveUTime(utime, id);
-             }
+            }
 
-//            }
             return ResponseEntity.ok("Success");
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().body("Error");
-//        }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error");
+        }
     }
-
 }
+
+

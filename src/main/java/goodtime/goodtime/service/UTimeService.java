@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.attribute.UserPrincipalNotFoundException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,21 +27,23 @@ public class UTimeService {
     public UTime saveUTime(UTimeDto uTimeDto, Long id) throws UserPrincipalNotFoundException {
 
 
-//        Optional<User> user = userRepository.findById(id);
-//        User user1 = user.orElseThrow(() -> new UserPrincipalNotFoundException("User not found with id: " + id));
-
         LOGGER.info("service id:{}",id);
         UTime uTime = UTime.builder()
                 .uStartTime(uTimeDto.getUStartTime())
                 .uEndTime(uTimeDto.getUEndTime())
-//                .user(user1)
                 .build();
 
         return uTimeRepository.save(uTime);
     }
 
     public List<UTime> readUTime(Long id){
-        return uTimeRepository.findByUser_uId(id);
+        Optional<User> userOptional = userRepository.findById(id);
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            return user.getUTimes();
+        }
+
+        return Collections.emptyList();
     }
 
 }

@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface UTimeRepository extends JpaRepository<UTime, Long> {
     List<UTime> findByUser_uId(Long uId);
+
+
 }
