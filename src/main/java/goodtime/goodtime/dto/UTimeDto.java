@@ -16,8 +16,8 @@ import java.util.List;
 public class UTimeDto {
 
     private Long id;
-    private String uStartTime;
-    private String uEndTime;
+    private int uStartTime;
+    private int uEndTime;
 
     @Override
     public String toString() {

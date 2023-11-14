@@ -22,9 +22,9 @@ public class UTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String uStartTime;
+    private int uStartTime;
 
-    private String uEndTime;
+    private int uEndTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -38,11 +38,11 @@ public class UTime {
     }
 
     @Builder
-    private UTime(Long id, String uStartTime, String uEndTime, User user){
+    private UTime(Long id, int uStartTime, int uEndTime, User user){
         this.id = id;
         this.uStartTime = uStartTime;
         this.user = user;
         this.uEndTime = uEndTime;
-        
+
     }
 }

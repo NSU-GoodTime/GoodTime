@@ -6,9 +6,7 @@ import goodtime.goodtime.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,16 +14,44 @@ import java.util.stream.Collectors;
 public class RoomService {
     private final RoomRepository roomRepository;
 
-    public List<UTime> getAllUserTimes(Long id){
+    private static final int userWeith = 1;
+
+    public Map<Integer,Integer> getAllUserTimes(Long id) {
         Optional<Room> roomOptional = roomRepository.findById(id);
-        Room room = roomOptional.get();
-        if(roomOptional.isPresent()){
-            return room.getUsers().stream()
+
+        if (roomOptional.isPresent()) {
+            Room room = roomOptional.get();
+
+
+            int startTime = room.getStartTime();
+            int endTime = room.getEndTime();
+
+
+            Map<Integer, Integer> timeWeightMap = new HashMap<>();
+
+            for (int i = startTime; i <= endTime; i++) {
+                timeWeightMap.put(i, 0); // 초기값은 0.0으로 설정
+            }
+
+
+            List<UTime> allTime = room.getUsers().stream()
                     .flatMap(user -> user.getUTimes().stream())
                     .collect(Collectors.toList());
 
-        }else{
-            return Collections.emptyList(); // 방이 없을 경우
+            if (!allTime.isEmpty()) {
+
+                for (UTime uTime : allTime) {
+                        for(int i = uTime.getUStartTime(); i<uTime.getUEndTime(); i++){
+                            if(timeWeightMap.containsKey(i)){
+                                timeWeightMap.put(i,timeWeightMap.get(i)+1);
+                            }
+                        }
+                }
+            }
+            return timeWeightMap;
+        } else {
+            return Collections.emptyMap();// 방이 없을 경우
         }
     }
 }
+
