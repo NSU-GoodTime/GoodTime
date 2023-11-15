@@ -1,11 +1,11 @@
-import React from "react";
+// import React from "react";
 
-const Main = () => {
-  return (
-    <div>
-      <h1>Main 페이지</h1>
-    </div>
-  );
-};
+// const Main = () => {
+//   return (
+//     <div>
+//       <h1>Main 페이지</h1>
+//     </div>
+//   );
+// };
 
-export default Main;
+// export default Main;
