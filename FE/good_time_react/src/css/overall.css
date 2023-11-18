@@ -1,0 +1,39 @@
+.F_left {
+  flex-basis: 50%;
+  justify-content: center;
+  align-items: center;
+}
+.F_right {
+  flex-basis: 50%;
+  background-color: aqua;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+}
+.subHome {
+  flex: 1;
+  display: flex;
+  margin: auto auto;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: auto;
+}
+.home {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.bb {
+  display: flex;
+  margin: auto auto;
+  justify-content: center;
+  align-items: center;
+}
+.nn {
+  display: flex;
+  margin: auto auto;
+  justify-content: center;
+  align-items: center;
+}
