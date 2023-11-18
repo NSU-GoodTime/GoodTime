@@ -7,7 +7,6 @@ function LoginPage() {
   const [Id, setId] = useState("");
   const [Password, setPassword] = useState("");
 
-  //다음페이지 넘어가야함
   const onIdHandler = (event) => {
     setId(event.currentTarget.value);
   };
