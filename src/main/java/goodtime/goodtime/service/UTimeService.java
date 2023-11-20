@@ -25,12 +25,13 @@ public class UTimeService {
     private final UserRepository userRepository;
 
     public UTime saveUTime(UTimeDto uTimeDto, Long id) throws UserPrincipalNotFoundException {
-
+        User user = userRepository.findById(id).get();
 
         LOGGER.info("service id:{}",id);
         UTime uTime = UTime.builder()
                 .uStartTime(uTimeDto.getUStartTime())
                 .uEndTime(uTimeDto.getUEndTime())
+                .user(user)
                 .build();
 
         return uTimeRepository.save(uTime);
@@ -45,7 +46,5 @@ public class UTimeService {
 
         return Collections.emptyList();
     }
-
-
 
 }

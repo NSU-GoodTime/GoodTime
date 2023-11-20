@@ -74,7 +74,7 @@ public class RoomService {
             if (!allTime.isEmpty()) {
 
                 for (UTime uTime : allTime) {
-                        for(int i = uTime.getUStartTime(); i<uTime.getUEndTime(); i++){
+                        for(int i = uTime.getUStartTime(); i<=uTime.getUEndTime(); i++){
                             if(timeWeightMap.containsKey(i)){
                                 timeWeightMap.put(i,timeWeightMap.get(i)+1);
                             }
