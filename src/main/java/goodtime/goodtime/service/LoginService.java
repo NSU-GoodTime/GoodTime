@@ -40,7 +40,7 @@ public class LoginService {
     public ResponseEntity<String> validateLogin(LoginRequestDto loginRequestDto, Long roomId) {
         try {
             Room room = findRoom(roomId);
-            int totalUser = roomRepository.findAllUserById(roomId).size();
+            int totalUser = room.getUsers().size();
 
             if (loginUser(loginRequestDto, room)) {
                 return ResponseEntity.status(HttpStatus.OK).body(loginRequestDto.getUid());
@@ -69,7 +69,7 @@ public class LoginService {
     }
 
     public boolean loginUser(LoginRequestDto loginRequestDto, Room room) {
-        List<User> users = roomRepository.findAllUserById(room.getId());
+        List<User> users = room.getUsers();
         for (User user : users) {
             if (user.getUId().equals(loginRequestDto.getUid()) && user.getPw().equals(loginRequestDto.getPw())) {
                 return true;
