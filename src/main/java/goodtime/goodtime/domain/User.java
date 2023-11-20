@@ -40,7 +40,7 @@ public class User {
     private List<UTime> UTimes = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "Room_Id")
+    @JoinColumn(name = "room_Id")
     @JsonIgnore
     private Room room;
 
