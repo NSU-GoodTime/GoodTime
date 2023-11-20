@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
@@ -38,11 +39,10 @@ public class UTime {
     }
 
     @Builder
-    private UTime(Long id, int uStartTime, int uEndTime, User user){
+    private UTime(Long id, int uStartTime, int uEndTime, User user) {
         this.id = id;
         this.uStartTime = uStartTime;
         this.user = user;
         this.uEndTime = uEndTime;
-
     }
 }

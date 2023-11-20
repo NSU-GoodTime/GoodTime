@@ -40,8 +40,6 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private List<User> users = new ArrayList<>();
-
-
     @Builder
     public Room(Long id, String  title, String day, int startTime, int endTime, int personnel, String firstRank, String secondRank, String ThirdRank){
         this.id = id;

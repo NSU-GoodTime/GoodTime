@@ -2,17 +2,53 @@ package goodtime.goodtime.service;
 
 import goodtime.goodtime.domain.Room;
 import goodtime.goodtime.domain.UTime;
+import goodtime.goodtime.dto.RoomRequestDto;
+import goodtime.goodtime.dto.TimeRequestDto;
 import goodtime.goodtime.repository.RoomRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@Slf4j
+@AllArgsConstructor
 public class RoomService {
     private final RoomRepository roomRepository;
+    private final Logger lOGGER = LoggerFactory.getLogger(RoomService.class);
+
+    public ResponseEntity<String> saveRoom(RoomRequestDto roomRequestDto){
+        try{
+            Room room = Room.builder()
+                    .title(roomRequestDto.getTitle())
+                    .day(roomRequestDto.getDay())
+                    .startTime(roomRequestDto.getStartTime())
+                    .endTime(roomRequestDto.getEndTime())
+                    .personnel(roomRequestDto.getPersonnel())
+                    .build();
+            roomRepository.save(room);
+            return ResponseEntity.status(HttpStatus.OK).body(String.valueOf(room.getId()));
+        }catch (Exception e) {
+            log.info("방 생성 실패 : {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("방 생성 실패");
+        }
+    }
+
+    public TimeRequestDto findTime(Long roomId) {
+        Room room = roomRepository.findById(roomId).get();
+        TimeRequestDto timeRequestDto = TimeRequestDto.builder()
+                .startTime(room.getStartTime())
+                .endTime(room.getEndTime())
+                .build();
+        return timeRequestDto;
+    }
 
     public Map<Integer,Integer> getAllUserTimes(Long id) {
         Optional<Room> roomOptional = roomRepository.findById(id);
@@ -78,4 +114,3 @@ public class RoomService {
     }
 
 }
-
