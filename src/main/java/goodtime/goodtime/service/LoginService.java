@@ -47,7 +47,7 @@ public class LoginService {
             }
 
             if (totalUser < room.getPersonnel()) {
-                user = registerUser(loginRequestDto);
+                user = registerUser(loginRequestDto, room);
                 return ResponseEntity.status(HttpStatus.OK).body(loginRequestDto.getUid());
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("신규 회원가입 불가능.");
@@ -58,10 +58,11 @@ public class LoginService {
 
     }
 
-    public User registerUser(LoginRequestDto loginRequestDto) {
+    public User registerUser(LoginRequestDto loginRequestDto, Room room) {
         User user = User.builder()
                 .uId(loginRequestDto.getUid())
                 .pw(loginRequestDto.getPw())
+                .room(room)
                 .build();
         userRepository.save(user);
         lOGGER.info("{}님 회원 가입 완료", user.getUId());

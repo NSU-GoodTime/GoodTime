@@ -45,9 +45,10 @@ public class User {
     private Room room;
 
     @Builder
-    private User(Long id, String uId, String pw){
+    private User(Long id, String uId, String pw, Room room){
         this.id = id;
         this.uId = uId;
         this.pw = pw;
+        this.room = room;
     }
 }
