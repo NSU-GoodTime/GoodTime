@@ -1,7 +1,6 @@
 package goodtime.goodtime.controller;
 
 
-import goodtime.goodtime.domain.UTime;
 import goodtime.goodtime.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,7 @@ public class RoomController {
     private final RoomService roomService;
 
 
-    @GetMapping("/{roomId}/utimes")
+    @GetMapping("/v1/{roomId}/utimes")
     public ResponseEntity<Map<Integer,Integer>> getAllUTime(@PathVariable Long roomId){
         try{
              Map<Integer, Integer> uTimes = roomService.getAllUserTimes(roomId);
@@ -31,7 +30,7 @@ public class RoomController {
         }
     }
 
-    @GetMapping("/{roomId}/goodTime")
+    @GetMapping("/v1/{roomId}/goodTime")
     public ResponseEntity<List<Integer>> getGoodTime(@PathVariable Long roomId){
         try{
             List<Integer> goodTimes = new ArrayList<>();

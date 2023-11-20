@@ -25,7 +25,7 @@ public class UTimeController {
     private final UTimeRepository uTimeRepository;
 
     // 사용자 투표 현황 정보
-    @GetMapping("/votingStatus/{id}")
+    @GetMapping("/v1/votingStatus/{id}")
     public List<UTime> votingStatus(@PathVariable Long id) {
 
         List<UTime> uTimes = uTimeService.readUTime(id);
@@ -33,7 +33,7 @@ public class UTimeController {
     }
 
     // 사용자 시간대 저장
-    @PostMapping("/utime/{userId}")
+    @PostMapping("/v1/utime/{userId}")
     public ResponseEntity<String> createUTimes(@RequestBody List<UTimeDto> utimes, @PathVariable Long userId)  {
 
         try {

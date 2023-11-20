@@ -14,8 +14,6 @@ import java.util.stream.Collectors;
 public class RoomService {
     private final RoomRepository roomRepository;
 
-    private static final int userWeith = 1;
-
     public Map<Integer,Integer> getAllUserTimes(Long id) {
         Optional<Room> roomOptional = roomRepository.findById(id);
 
