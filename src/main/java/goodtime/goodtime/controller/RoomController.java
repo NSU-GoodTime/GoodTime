@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import java.util.Map;
 public class RoomController {
     private final RoomService roomService;
 
+
     @GetMapping("/{roomId}/utimes")
     public ResponseEntity<Map<Integer,Integer>> getAllUTime(@PathVariable Long roomId){
         try{
@@ -26,7 +28,18 @@ public class RoomController {
              return ResponseEntity.ok(uTimes);
         }catch (Exception e){
             return ResponseEntity.badRequest().build();
+        }
+    }
 
+    @GetMapping("/{roomId}/goodTime")
+    public ResponseEntity<List<Integer>> getGoodTime(@PathVariable Long roomId){
+        try{
+            List<Integer> goodTimes = new ArrayList<>();
+            goodTimes = roomService.recommendTimes(roomId);
+            return ResponseEntity.ok(goodTimes);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
         }
     }
 }
+

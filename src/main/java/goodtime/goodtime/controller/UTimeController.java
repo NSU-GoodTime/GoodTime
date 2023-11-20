@@ -18,11 +18,13 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+
 public class UTimeController {
     private final Logger LOGGER = LoggerFactory.getLogger(UTimeController.class);
     private final UTimeService uTimeService;
     private final UTimeRepository uTimeRepository;
 
+    // 사용자 투표 현황 정보
     @GetMapping("/votingStatus/{id}")
     public List<UTime> votingStatus(@PathVariable Long id) {
 
@@ -30,20 +32,14 @@ public class UTimeController {
         return uTimes;
     }
 
-    @PostMapping("/utime/{id}")
-    public ResponseEntity<String> createUTimes(@RequestBody List<UTimeDto> utimes, @PathVariable Long id) throws UserPrincipalNotFoundException {
-
-
-        LOGGER.info("utimes1: {}", utimes);
-        LOGGER.info("id: {}", id);
+    // 사용자 시간대 저장
+    @PostMapping("/utime/{userId}")
+    public ResponseEntity<String> createUTimes(@RequestBody List<UTimeDto> utimes, @PathVariable Long userId)  {
 
         try {
-
             for (UTimeDto utime : utimes) {
-
-                uTimeService.saveUTime(utime, id);
+                uTimeService.saveUTime(utime, userId);
             }
-
             return ResponseEntity.ok("Success");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error");

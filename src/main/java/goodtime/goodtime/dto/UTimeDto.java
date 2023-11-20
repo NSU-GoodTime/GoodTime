@@ -24,7 +24,7 @@ public class UTimeDto {
         return "id=" + id +"uStartTime=" + uStartTime + ", uEndTime=" + uEndTime + "}";
     }
     private List<UTimeDto> utimes;
-    private User user;
+
     private Long user_id;
 
     public static UTimeDto form(UTime uTime){
@@ -32,7 +32,6 @@ public class UTimeDto {
         return UTimeDto.builder()
                 .uStartTime(uTime.getUStartTime())
                 .uEndTime(uTime.getUEndTime())
-                .user(uTime.getUser())
                 .build();
     }
 
