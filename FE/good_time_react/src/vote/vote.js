@@ -58,7 +58,9 @@ const VoteTable = ({ roomId }) => {
         const newData = generateTableData(startTime, endTime);
         setTableData(newData);
 
-        console.log(newData);
+        console.log("시작 시간:", startTime);
+        console.log("종료 시간:", endTime);
+        console.log("생성된 테이블 데이터:", newData);
       })
       .catch((error) => {
         console.error("에러 발생:", error);
