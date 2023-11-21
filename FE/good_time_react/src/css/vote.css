@@ -1,0 +1,21 @@
+/* vote.css */
+
+.vote-table {
+  display: flex;
+  flex-direction: column; /* 세로로 정렬 */
+}
+
+.time-slot {
+  border: 1px solid #ddd;
+  padding: 8px;
+  margin: 4px;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: #aaf;
+}
+
+.dragging {
+  opacity: 0.5;
+}

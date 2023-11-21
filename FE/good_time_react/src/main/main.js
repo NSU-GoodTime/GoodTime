@@ -17,12 +17,11 @@ const Main = () => {
 
   const generateTimeOptions = () => {
     const timeOptions = [];
-    for (let hour = 0; hour < 24; hour++) {
-      for (let minute = 0; minute < 60; minute += 60) {
-        const time = moment().set({ hour, minute });
-        timeOptions.push(time.format("HH:mm"));
-      }
+    for (let hour = 0; hour <= 24; hour++) {
+      const time = moment().set({ hour, minute: 0 });
+      timeOptions.push(time.format("HH:mm"));
     }
+
     return timeOptions;
   };
 
@@ -51,12 +50,18 @@ const Main = () => {
   };
 
   const handleSubmit = () => {
+    if (!title || !selectedDate || !startTime || !endTime || !numberOfPeople) {
+      setAlertMessage("모든 필수 항목을 선택해주세요.");
+      return;
+    }
+
     // 시작 시간 종료 시간 비교
     const startMoment = moment(startTime, "HH:mm");
     const endMoment = moment(endTime, "HH:mm");
 
     if (startMoment.isAfter(endMoment)) {
       setAlertMessage("종료 시간을 시작 시간보다 늦게 설정해주세요.");
+
       return;
     }
 
@@ -72,7 +77,7 @@ const Main = () => {
     };
 
     axios
-      .post("", reservationData) // url 수정
+      .post("/v1/room", reservationData)
       .then((response) => {
         console.log("백엔드 응답:", response.data);
       })
