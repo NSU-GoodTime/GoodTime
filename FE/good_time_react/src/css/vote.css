@@ -1,8 +1,6 @@
-/* vote.css */
-
 .vote-table {
   display: flex;
-  flex-direction: column; /* 세로로 정렬 */
+  flex-direction: column;
 }
 
 .time-slot {

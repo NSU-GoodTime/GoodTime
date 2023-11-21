@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Main />} />
           <Route path='/Calendar' element={<Calendar />} />
-          <Route path='/Vote' element={<VoteTable />} />
+          <Route path='/v1/utime/:userId' element={<VoteTable />} />
         </Routes>
       </Router>
     </DndProvider>

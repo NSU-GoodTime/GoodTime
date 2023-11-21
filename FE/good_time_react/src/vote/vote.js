@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import moment from "moment";
 import axios from "axios";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 import "../css/vote.css";
 
 const DraggableCell = ({ timeSlot, onDrop, onClick }) => {
@@ -35,7 +38,9 @@ const DraggableCell = ({ timeSlot, onDrop, onClick }) => {
   );
 };
 
-const VoteTable = ({ roomId, userId }) => {
+const VoteTable = ({ roomId }) => {
+  const { userId } = useParams();
+  const navigate = useNavigate();
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [tableData, setTableData] = useState([]);
@@ -110,6 +115,7 @@ const VoteTable = ({ roomId, userId }) => {
     });
   };
 
+  // 제출 버튼 클릭 시
   const handleSubmit = () => {
     const selectedSlots = [];
     let currentSlot = null;
@@ -126,9 +132,7 @@ const VoteTable = ({ roomId, userId }) => {
           currentSlot.endTime = timeSlot.time;
           selectedSlots.push({
             uStartTime: currentSlot.startTime,
-            uEndTime: moment(currentSlot.endTime, "HH:mm")
-              .add(1, "hours")
-              .format("HH:mm"),
+            uEndTime: moment(currentSlot.endTime, "HH:mm").format("HH:mm"),
           });
           currentSlot = null;
         }
@@ -151,10 +155,42 @@ const VoteTable = ({ roomId, userId }) => {
       .post(`/v1/utime/${userId}`, selectedSlots)
       .then((response) => {
         console.log("선택한 시간대 서버 응답:", response.data);
+        // 제출 후 알림창 표시
+        showConfirmationAlert();
       })
       .catch((error) => {
         console.error("에러 발생:", error);
       });
+  };
+
+  // 결과보기 버튼 클릭 시
+  const handleResultView = () => {
+    // 결과보기 클릭 후 알림창 표시 및 추천시간 페이지로 이동
+    showConfirmationAlert("/v1/recommendationPage");
+  };
+
+  const showConfirmationAlert = (redirectPath) => {
+    confirmAlert({
+      title: "투표 종료",
+      message: "투표를 종료하고 추천 시간을 받아보시겠습니까?",
+      buttons: [
+        {
+          label: "예",
+          onClick: () => {
+            if (redirectPath) {
+              navigate(redirectPath);
+            }
+          },
+        },
+        {
+          label: "아니요",
+          onClick: () => {
+            // "아니요"를 선택하면 로그인 페이지로 이동(전체 투표 현황 확인)
+            navigate("/v1/loginPage");
+          },
+        },
+      ],
+    });
   };
 
   return (
@@ -164,6 +200,7 @@ const VoteTable = ({ roomId, userId }) => {
           투표 테이블 ({startTime} ~ {endTime})
         </h2>
         <button onClick={handleSubmit}>제출</button>
+        <button onClick={handleResultView}>결과보기</button>
         <div className='vote-table'>
           {tableData.map((timeSlot) => (
             <DraggableCell
