@@ -1,52 +1,78 @@
 import React, { useState } from "react";
-// import { Checklogin } from "./CheckLogin";
-// import { CopyToClipboard } from "react-copy-to-clipboard";
-function LoginPage() {
-  // const dispatch = useDispatch();
+import { useLocation } from "react-router-dom";
+// import axios from "axios";
+// import { useDispatch } from "react-redux";
+// import { loginUser } from "./yourReduxActions";
+// import { useHistory } from "react-router-dom";
 
-  const [Id, setId] = useState("");
-  const [Password, setPassword] = useState("");
+const LoginPage = () => {
+  // const dispatch = useDispatch();
+  // const history = useHistory();
+  const [uid, setuid] = useState("");
+  const [pw, setPw] = useState("");
+  // const [roomId, setRoomId] = useState("null"); // 초기에는 null 또는 기본값으로 설정
+  const location = useLocation();
+
+  console.log(location);
 
   const onIdHandler = (event) => {
-    setId(event.currentTarget.value);
+    setuid(event.currentTarget.value);
   };
   const onPasswordHandler = (event) => {
-    setPassword(event.currentTarget.value);
+    setPw(event.currentTarget.value);
   };
-  const onSubmitHandler = (event) => {
-    // 버튼만 누르면 리로드 되는것을 막아줌
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
 
-    console.log("Id", Id);
-    console.log("Password", Password);
+    console.log("Id", uid);
+    console.log("Password", pw);
 
-    //Id,Password를 다 입력해야함
-    event.preventDefault();
-    if (!Id) {
+    if (!uid && !pw) {
+      return alert("ID와 Password를 모두 입력하세요.");
+    } else if (!uid) {
       return alert("ID를 입력하세요.");
-    } else if (!Password) {
+    } else if (!pw) {
       return alert("Password를 입력하세요.");
     }
 
-    // let body = {
-    //   id: Id,
-    //   password: Password,
-    // };
+    // try {
+    //   const result = await axios.post("/{roomId}/login", { uid, pw }); //url 수정
+    //   console.log("Login result:", result.data.data);
+
+    // 로그인 성공 시 추가 작업 수행
+    // const { accessToken, refreshToken } = result.data.data; //서버로 받은 토큰 추출
+    // localStorage.setItem('access', accessToken); //엑세스 토큰 로컬 스톨지에 저장하는 기능
+    // localStorage.setItem('refresh', refreshToken); //똑같이 저장
     // dispatch(loginUser(body));
+    // history.push('/dashboard'); // 이후 페이지로 넘어가게 설정
+    // } catch (error) {
+    //   console.error("Login error:", error);
+    //   alert("로그인에 실패했습니다.");
+    // }
   };
+  // useEffect(() => {
+  //   // 백엔드에서 방 번호를 받아오는 API 호출
+  //   axios
+  //     .get("v1/") // URL수정
+  //     .then((response) => {
+  //       const receivedRoomId = response.data.roomId;
+  //       setRoomId(receivedRoomId);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Failed to fetch roomId:", error);
+  //       // 실패 시 처리
+  //     });
+  // }, []);
 
-  //==================================
-  // const onSubmitHandler = async () => {
-  //   const result= await Checklogin(Id, Password);
-  //   console.log("Id", Id);
-  //   console.log("Password", Password);
-  //const {accessToken,refreshToken}=result;
-  // localStorage.setItem('access',accessToken);
-  // localStorage.setItem('refresh',refreshToken);  로컬에서 저장
-
-  // dispatch(loginUser(body));
-  // router('./어디론가 넘어가는 페이지');
-  // };
+  //링크 복사
+  const handleCopyClipBoard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("클립보드에 링크가 복사되었어요.");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div
@@ -63,14 +89,25 @@ function LoginPage() {
         onSubmit={onSubmitHandler}
       >
         <label>Id</label>
-        <input type="text" value={Id} onChange={onIdHandler} />
+        <input type="text" value={uid} onChange={onIdHandler} />
         <label>Password</label>
-        <input type="password" value={Password} onChange={onPasswordHandler} />
+        <input type="password" value={pw} onChange={onPasswordHandler} />
         <br />
-        <button formAction="">Login</button>
+        <button type="submit">Login</button>
+        <br />
       </form>
+      <button
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          margin: " 0px 0px 50px 30px",
+        }}
+        onClick={() => handleCopyClipBoard("복사된 텍스트")}
+      >
+        링크 공유하기
+      </button>
     </div>
   );
-}
+};
 
 export default LoginPage;
