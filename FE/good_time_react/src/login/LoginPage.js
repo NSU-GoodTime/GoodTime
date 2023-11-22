@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import OverallVotesTable from "../login/overallVotesTable";
 
 const LoginPage = () => {
+  const { roomId } = useParams();
   const navigate = useNavigate();
   const [uid, setUid] = useState("");
   const [pw, setPw] = useState("");
@@ -31,13 +32,11 @@ const LoginPage = () => {
     }
 
     try {
-      const result = await axios.post("/{roomId}/login", { uid, pw }); //url 수정
-      console.log("Login result:", result.data.data);
+      const result = await axios.post(`/v1/${roomId}/login`, { uid, pw });
+      console.log("로그인 결과:", result.data);
 
       // 로그인 성공 시 추가 작업 수행
-      const { accessToken, refreshToken, userId } = result.data.data;
-      localStorage.setItem("access", accessToken);
-      localStorage.setItem("refresh", refreshToken);
+      const { userId } = result.data;
       navigate(`/utime/${userId}`);
     } catch (error) {
       console.error("Login error:", error);
@@ -85,7 +84,7 @@ const LoginPage = () => {
           링크 공유하기
         </button>
       </form>
-      <OverallVotesTable />
+      <OverallVotesTable roomId={roomId} />
     </div>
   );
 };

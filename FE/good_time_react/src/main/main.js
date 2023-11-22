@@ -64,7 +64,6 @@ const Main = () => {
 
     if (startMoment.isAfter(endMoment)) {
       setAlertMessage("종료 시간을 시작 시간보다 늦게 설정해주세요.");
-
       return;
     }
 
@@ -84,11 +83,10 @@ const Main = () => {
     axios
       .post("/v1/room", reservationData)
       .then((response) => {
-        console.log("백엔드 응답:", response.data);
-        if (response.data.success) {
-          const roomId = response.data.roomId;
-          navigate(`/loginPage/${roomId}`);
-        }
+        console.log("방 만들기 요청 성공");
+        console.log("서버 응답:", response.data);
+        const roomId = response.data; //response.data.roomId
+        navigate(`/loginPage/${roomId}`);
       })
       .catch((error) => {
         console.error("에러 발생:", error);

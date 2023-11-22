@@ -40,6 +40,7 @@ const DraggableCell = ({ timeSlot, onDrop, onClick }) => {
 
 const VoteTable = ({ roomId }) => {
   const { userId } = useParams();
+  console.log("userId:", userId);
   const navigate = useNavigate();
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
