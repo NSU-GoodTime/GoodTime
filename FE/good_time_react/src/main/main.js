@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import axios from "axios";
 import Calendar from "../main/calendar";
@@ -10,6 +11,8 @@ const Main = () => {
   const [numberOfPeople, setNumberOfPeople] = useState("");
   const [title, setTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -76,10 +79,15 @@ const Main = () => {
       title,
     };
 
+    console.log("전송 데이터:", reservationData);
+
     axios
       .post("/v1/room", reservationData)
       .then((response) => {
         console.log("백엔드 응답:", response.data);
+        if (response.data.success) {
+          navigate("/loginPage");
+        }
       })
       .catch((error) => {
         console.error("에러 발생:", error);

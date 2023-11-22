@@ -188,7 +188,7 @@ const VoteTable = ({ roomId }) => {
           label: "아니요",
           onClick: () => {
             // "아니요"를 선택하면 로그인 페이지로 이동(전체 투표 현황 확인)
-            navigate("/v1/loginPage");
+            navigate("/loginPage");
           },
         },
       ],
