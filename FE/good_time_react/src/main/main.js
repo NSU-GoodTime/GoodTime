@@ -73,8 +73,8 @@ const Main = () => {
 
     const reservationData = {
       date: selectedDate.format("YYYY-MM-DD"),
-      startTime,
-      endTime,
+      startTime: parseInt(startTime),
+      endTime: parseInt(endTime),
       numberOfPeople,
       title,
     };
@@ -86,7 +86,8 @@ const Main = () => {
       .then((response) => {
         console.log("백엔드 응답:", response.data);
         if (response.data.success) {
-          navigate("/loginPage");
+          const roomId = response.data.roomId;
+          navigate(`/loginPage/${roomId}`);
         }
       })
       .catch((error) => {

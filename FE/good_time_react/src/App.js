@@ -16,7 +16,7 @@ function App() {
           <Route path='/' element={<Main />} />
           <Route path='/Calendar' element={<Calendar />} />
           <Route path='/utime/:userId' element={<VoteTable />} />
-          <Route path='/loginPage' element={<LoginPage />} />
+          <Route path='/loginPage/:roomId' element={<LoginPage />} />
           <Route path='/overallVotesTable' element={<OverallVotesTable />} />
         </Routes>
       </Router>
