@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import OverallVotesTable from "../login/overallVotesTable";
+import * as clipboard from "clipboard-polyfill";
 
 const LoginPage = () => {
   const { roomId } = useParams();
@@ -46,10 +47,12 @@ const LoginPage = () => {
 
   const handleCopyClipBoard = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href);
+      console.log("클립보드에 복사 시도 중");
+      await clipboard.writeText(window.location.href);
+      console.log("클립보드 복사 성공");
       alert("현재 페이지 링크가 복사되었어요.");
     } catch (err) {
-      console.log(err);
+      console.error("클립보드 복사 실패:", err);
       alert("링크를 복사하는 데 문제가 발생했습니다.");
     }
   };

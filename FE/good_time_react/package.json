@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.1",
     "clipboard": "^2.0.11",
+    "clipboard-polyfill": "^4.0.1",
     "dayjs": "^1.11.10",
     "moment": "^2.29.4",
     "react": "^18.2.0",

@@ -24,7 +24,7 @@ function GoodTimes() {
   return (
     <div>
       <div>
-        <h1 className='title'>~ Good Times ~</h1>
+        <h1 className='title'>추천 시간</h1>
         <ul className='ul'>
           <div className='list'>
             <h1>

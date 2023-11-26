@@ -203,8 +203,26 @@ const VoteTable = () => {
         <h2>
           투표 테이블 ({startTime} ~ {endTime})
         </h2>
-        <button onClick={handleSubmit}>제출</button>
-        <button onClick={handleResultView}>결과보기</button>
+        <button
+          style={{
+            fontSize: "15px",
+            padding: "5px 10px",
+            border: "1px solid rgb(189, 189, 189",
+          }}
+          onClick={handleSubmit}
+        >
+          제출
+        </button>
+        <button
+          style={{
+            fontSize: "15px",
+            padding: "5px 10px",
+            border: "1px solid rgb(189, 189, 189",
+          }}
+          onClick={handleResultView}
+        >
+          결과보기
+        </button>
         <div className='vote-table'>
           {tableData.map((timeSlot) => (
             <DraggableCell
