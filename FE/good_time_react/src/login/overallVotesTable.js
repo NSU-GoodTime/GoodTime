@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import axios from "axios";
 import moment from "moment";
 import "../css/vote.css";
@@ -35,9 +34,14 @@ const OverallVotesTable = ({ roomId }) => {
     axios
       .get(`/v1/${roomId}/utimes`)
       .then((response) => {
-        setWeightData(response.data);
+        // 시간 가중치 데이터를 숫자로 변환
+        const numericWeightData = {};
+        Object.entries(response.data).forEach(([time, weight]) => {
+          numericWeightData[time] = parseInt(weight, 10);
+        });
+        setWeightData(numericWeightData);
 
-        console.log("가중치 데이터:", response.data);
+        console.log("가중치 데이터:", numericWeightData);
       })
       .catch((error) => {
         console.error("가중치 데이터를 불러오는 중 에러 발생:", error);
@@ -55,7 +59,7 @@ const OverallVotesTable = ({ roomId }) => {
     // 각 시간 슬롯에 대한 초기 데이터 생성
     while (currentTime.isSameOrBefore(endMoment)) {
       const timeSlot = {
-        time: currentTime.format(timeFormat),
+        time: currentTime.format("H"), // 시간을 숫자로 변환
         attendee: "",
       };
 
@@ -78,7 +82,7 @@ const OverallVotesTable = ({ roomId }) => {
             className='time-slot'
             style={{
               backgroundColor: `rgba(0, 0, 255, ${
-                weightData[timeSlot.time] || 0
+                weightData[timeSlot.time] / 10 || 0
               })`,
             }}
           >

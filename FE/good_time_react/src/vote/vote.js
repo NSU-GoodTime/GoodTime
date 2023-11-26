@@ -38,7 +38,8 @@ const DraggableCell = ({ timeSlot, onDrop, onClick }) => {
   );
 };
 
-const VoteTable = ({ roomId }) => {
+const VoteTable = () => {
+  const roomId = localStorage.getItem("roomId");
   const { userId } = useParams();
   console.log("userId:", userId);
   const navigate = useNavigate();
@@ -49,11 +50,11 @@ const VoteTable = ({ roomId }) => {
   useEffect(() => {
     // 시작 시간 종료 시간 가져오기
     axios
-      .get(`/v1/room/${roomId}/goodtime`)
+      .get(`/v1/room/${userId}/vote`)
       .then((response) => {
         const { startTime, endTime } = response.data;
-        setStartTime(startTime);
-        setEndTime(endTime);
+        setStartTime(parseInt(startTime, 10));
+        setEndTime(parseInt(endTime, 10));
 
         // 테이블 데이터 생성
         const newData = generateTableData(startTime, endTime);
@@ -66,7 +67,7 @@ const VoteTable = ({ roomId }) => {
       .catch((error) => {
         console.error("에러 발생:", error);
       });
-  }, [roomId]);
+  }, [userId]);
 
   // 시작 시간과 종료 시간으로 테이블 데이터 생성
   const generateTableData = (startTime, endTime) => {
@@ -80,7 +81,7 @@ const VoteTable = ({ roomId }) => {
     // 각 시간 슬롯에 대한 초기 데이터 생성
     while (currentTime.isSameOrBefore(endMoment)) {
       const timeSlot = {
-        time: currentTime.format(timeFormat),
+        time: parseInt(currentTime.format("H"), 10), // 숫자 형태로 변환
         attendee: "",
         selected: false,
       };
@@ -135,7 +136,7 @@ const VoteTable = ({ roomId }) => {
           currentSlot.endTime = timeSlot.time;
           selectedSlots.push({
             uStartTime: currentSlot.startTime,
-            uEndTime: moment(currentSlot.endTime, "HH:mm").format("HH:mm"),
+            uEndTime: currentSlot.endTime,
           });
           currentSlot = null;
         }
@@ -147,7 +148,7 @@ const VoteTable = ({ roomId }) => {
       currentSlot.endTime = tableData[tableData.length - 1].time;
       selectedSlots.push({
         uStartTime: currentSlot.startTime,
-        uEndTime: moment(currentSlot.endTime, "HH:mm").format("HH:mm"),
+        uEndTime: currentSlot.endTime,
       });
     }
 
@@ -159,7 +160,7 @@ const VoteTable = ({ roomId }) => {
       .then((response) => {
         console.log("선택한 시간대 서버 응답:", response.data);
         // 제출 후 알림창 표시
-        showConfirmationAlert();
+        // showConfirmationAlert();
       })
       .catch((error) => {
         console.error("에러 발생:", error);
@@ -169,7 +170,7 @@ const VoteTable = ({ roomId }) => {
   // 결과보기 버튼 클릭 시
   const handleResultView = () => {
     // 결과보기 클릭 후 알림창 표시 및 추천시간 페이지로 이동
-    showConfirmationAlert("/v1/recommendationPage");
+    showConfirmationAlert(`/${roomId}/goodTime`);
   };
 
   const showConfirmationAlert = (redirectPath) => {
@@ -189,7 +190,7 @@ const VoteTable = ({ roomId }) => {
           label: "아니요",
           onClick: () => {
             // "아니요"를 선택하면 로그인 페이지로 이동(전체 투표 현황 확인)
-            navigate("/loginPage");
+            navigate(`/loginPage/${roomId}`);
           },
         },
       ],

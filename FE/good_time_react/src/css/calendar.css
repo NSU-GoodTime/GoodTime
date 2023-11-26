@@ -1,6 +1,9 @@
 .calendar {
   width: 300px;
-  margin: 0 auto;
+  margin: 20px auto;
+  box-shadow: 0 3px 3px rgba(144, 144, 144, 0.3),
+    0 15px 12px rgba(187, 187, 187, 0.22);
+  padding: 5px;
 }
 
 .calendar-header {
@@ -48,4 +51,27 @@
 
 .empty-day {
   background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 50%;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.makeRoom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.makeRoomBtn {
+  font-size: 15px;
+  padding: 5px 10px;
+  border: 1px solid rgb(189, 189, 189);
 }

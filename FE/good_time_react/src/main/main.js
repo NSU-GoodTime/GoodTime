@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import axios from "axios";
 import Calendar from "../main/calendar";
+import "../css/main.css";
 
 const Main = () => {
   const [selectedDate, setSelectedDate] = useState(moment());
@@ -86,6 +87,7 @@ const Main = () => {
         console.log("방 만들기 요청 성공");
         console.log("서버 응답:", response.data);
         const roomId = response.data; //response.data.roomId
+        localStorage.setItem("roomId", roomId);
         navigate(`/loginPage/${roomId}`);
       })
       .catch((error) => {
@@ -94,56 +96,75 @@ const Main = () => {
   };
 
   return (
-    <div>
-      {alertMessage && <div style={{ color: "red" }}>{alertMessage}</div>}
-
+    <div className='bigbox'>
       <div>
-        <label>방 제목:</label>
-        <input
-          type='text'
-          value={title}
-          onChange={(e) => handleTitleChange(e.target.value)}
-        />
+        {alertMessage && (
+          <div
+            style={{
+              color: "red",
+              marginTop: "10px",
+            }}
+          >
+            {alertMessage}
+          </div>
+        )}
+
+        <div className='titleBox'>
+          <input
+            className='titleBox_input'
+            type='text'
+            value={title}
+            placeholder='방 제목을 입력해주세요'
+            onChange={(e) => handleTitleChange(e.target.value)}
+          />
+        </div>
+
+        <Calendar selectedDate={selectedDate} onDateChange={handleDateChange} />
+
+        <div className='typeInput'>
+          <div className='startTimeBox'>
+            <label>시작 시간 : </label>
+            <select
+              value={startTime}
+              onChange={(e) => handleTimeChange("startTime", e.target.value)}
+            >
+              {generateTimeOptions().map((time) => (
+                <option key={time} value={time}>
+                  {time}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className='EndTimeBox'>
+            <label>종료 시간 : </label>
+            <select
+              value={endTime}
+              onChange={(e) => handleTimeChange("endTime", e.target.value)}
+            >
+              {generateTimeOptions().map((time) => (
+                <option key={time} value={time}>
+                  {time}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className='peopleBox'>
+            <label>인원 수 : </label>
+            <input
+              type='number'
+              value={numberOfPeople}
+              onChange={(e) => handleNumberOfPeopleChange(e.target.value)}
+              min='0'
+              max='10'
+            />
+          </div>
+        </div>
+        <div className='makeRoom'>
+          <button className='makeRoomBtn' onClick={handleSubmit}>
+            방 만들기
+          </button>
+        </div>
       </div>
-
-      <Calendar selectedDate={selectedDate} onDateChange={handleDateChange} />
-
-      <div>
-        <label>시작 시간:</label>
-        <select
-          value={startTime}
-          onChange={(e) => handleTimeChange("startTime", e.target.value)}
-        >
-          {generateTimeOptions().map((time) => (
-            <option key={time} value={time}>
-              {time}
-            </option>
-          ))}
-        </select>
-
-        <label>끝나는 시간:</label>
-        <select
-          value={endTime}
-          onChange={(e) => handleTimeChange("endTime", e.target.value)}
-        >
-          {generateTimeOptions().map((time) => (
-            <option key={time} value={time}>
-              {time}
-            </option>
-          ))}
-        </select>
-
-        <label>인원 수:</label>
-        <input
-          type='number'
-          value={numberOfPeople}
-          onChange={(e) => handleNumberOfPeopleChange(e.target.value)}
-          min='0'
-          max='10'
-        />
-      </div>
-
-      <button onClick={handleSubmit}>방 만들기</button>
     </div>
   );
 };

@@ -5,6 +5,7 @@ import Main from "./main/main";
 import Calendar from "./main/calendar";
 import VoteTable from "./vote/vote";
 import OverallVotesTable from "./login/overallVotesTable";
+import GoodTimes from "./goodTime/goodTime";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
@@ -16,6 +17,7 @@ function App() {
           <Route path='/' element={<Main />} />
           <Route path='/Calendar' element={<Calendar />} />
           <Route path='/utime/:userId' element={<VoteTable />} />
+          <Route path='/:roomId/goodTime' element={<GoodTimes />} />
           <Route path='/loginPage/:roomId' element={<LoginPage />} />
           <Route path='/overallVotesTable' element={<OverallVotesTable />} />
         </Routes>

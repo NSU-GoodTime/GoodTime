@@ -36,7 +36,7 @@ const LoginPage = () => {
       console.log("로그인 결과:", result.data);
 
       // 로그인 성공 시 추가 작업 수행
-      const { userId } = result.data;
+      const userId = result.data;
       navigate(`/utime/${userId}`);
     } catch (error) {
       console.error("Login error:", error);
@@ -44,12 +44,13 @@ const LoginPage = () => {
     }
   };
 
-  const handleCopyClipBoard = async (text) => {
+  const handleCopyClipBoard = async () => {
     try {
-      await navigator.clipboard.writeText(text);
-      alert("클립보드에 링크가 복사되었어요.");
+      await navigator.clipboard.writeText(window.location.href);
+      alert("현재 페이지 링크가 복사되었어요.");
     } catch (err) {
       console.log(err);
+      alert("링크를 복사하는 데 문제가 발생했습니다.");
     }
   };
 
@@ -63,27 +64,66 @@ const LoginPage = () => {
         height: "100vh",
       }}
     >
-      <form
-        style={{ display: "flex", flexDirection: "column" }}
-        onSubmit={onSubmitHandler}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
-        <label>Id</label>
-        <input type='text' value={uid} onChange={onIdHandler} />
-        <label>Password</label>
-        <input type='password' value={pw} onChange={onPasswordHandler} />
-        <br />
-        <button type='submit'>Login</button>
-        <br />
+        <form
+          style={{ display: "flex", flexDirection: "column" }}
+          onSubmit={onSubmitHandler}
+        >
+          <div
+            style={{
+              display: "flex",
+            }}
+          >
+            <label style={{ marginRight: "10px" }}>Id</label>
+            <input type='text' value={uid} onChange={onIdHandler} />
+          </div>
+          <div
+            style={{
+              display: "flex",
+            }}
+          >
+            <label style={{ marginRight: "10px" }}>Password</label>
+            <input type='password' value={pw} onChange={onPasswordHandler} />
+          </div>
+          <br />
+          <button
+            type='submit'
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "15px",
+              padding: "5px 10px",
+              border: "1px solid rgb(189, 189, 189",
+            }}
+          >
+            Login
+          </button>
+          <br />
+        </form>
         <button
           style={{
             display: "flex",
             flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: "15px",
+            padding: "5px 10px",
+            border: "1px solid rgb(189, 189, 189",
           }}
-          onClick={() => handleCopyClipBoard("복사된 텍스트")}
+          onClick={handleCopyClipBoard}
         >
           링크 공유하기
         </button>
-      </form>
+      </div>
       <OverallVotesTable roomId={roomId} />
     </div>
   );
