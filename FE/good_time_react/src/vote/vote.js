@@ -205,9 +205,8 @@ const VoteTable = () => {
         </h2>
         <button
           style={{
-            fontSize: "15px",
-            padding: "5px 10px",
-            border: "1px solid rgb(189, 189, 189",
+            fontSize: "20px",
+            padding: "10px 10px",
           }}
           onClick={handleSubmit}
         >
@@ -215,9 +214,8 @@ const VoteTable = () => {
         </button>
         <button
           style={{
-            fontSize: "15px",
-            padding: "5px 10px",
-            border: "1px solid rgb(189, 189, 189",
+            fontSize: "20px",
+            padding: "10px 10px",
           }}
           onClick={handleResultView}
         >
